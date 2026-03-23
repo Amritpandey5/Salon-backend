@@ -90,3 +90,29 @@ exports.updateBookingStatus = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+// get all booked slot by date 
+
+exports.getBookedSlots = async (req, res) => {
+  try {
+    const { date } = req.query;
+    console.log(date);
+
+    if (!date) {
+      return res.status(400).json({ message: "Date is required" });
+    }
+
+    // get all non-cancelled bookings for that date
+    const bookings = await Booking.find({
+      date,
+      status: { $ne: "cancelled" }
+    }).populate("stylist time");
+    console.log(bookings);
+    
+
+    res.status(200).json(bookings);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+

@@ -1,5 +1,5 @@
 const express = require('express');
-const { createBooking, getMyBookings, getAllBookings, updateBookingStatus } = require('../controllers/bookingController');
+const { createBooking, getMyBookings, getAllBookings, updateBookingStatus, getBookedSlots } = require('../controllers/bookingController');
 const {protect,adminOnly} = require('../middleware/authMiddleware')
 
 const router = express.Router();
@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.post('/',protect,createBooking);
 router.get('/my',protect,getMyBookings);
+router.get('/slots',protect,getBookedSlots);
 
 // Admin Routes
 
